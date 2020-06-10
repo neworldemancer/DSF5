@@ -11,6 +11,8 @@ dependencies:
   - ipywidgets
   - pandas
   - scikit-learn
-  - tensorflow
+  - tensorflow=2.1
+  - umap-learn
+  - scipy 
   - pip:
     - requests

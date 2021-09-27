@@ -15,8 +15,8 @@ Day 1:
 
 Day 2:
 * Clustering with K-means and Gaussian mixtures
-* Artificial Neural networks as general fitters, fully connected nets used to classify the fashion-MNIST dataset
 * Principal component analysis (PCA) and non-linear embeddings (t-SNE and UMAP)
+* Artificial Neural networks as general fitters, fully connected nets used to classify the fashion-MNIST dataset
 * Scikit-learn and clustering maps, Q&A
 
 Our wepgabe is [scits.unibe.ch](http://scits.unibe.ch)

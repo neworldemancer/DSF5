@@ -14,7 +14,7 @@ def load_sample_data_pca():
     return data
 
 
-def load_multidimensional_data_pca(n_data, n_vec, dim, eps ):
+def load_multidimensional_data_pca(n_data=40 ,n_vec=6, dim=20, eps= 0.5 ):
     
     points=[]
     vectors=np.random.uniform(-1,1,(dim,n_vec))

@@ -16,4 +16,4 @@ Learning outcomes:
 * Artificial Neural networks as general fitters, fully connected nets used to classify the fashion-MNIST dataset
 * Scikit-learn and clustering maps, Q&A
 
-Our wepgabe is [scits.unibe.ch](http://scits.unibe.ch)
+Our wepgabe is [dsl.unibe.ch](https://www.dsl.unibe.ch/)

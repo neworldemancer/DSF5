@@ -126,3 +126,39 @@ def gm_load_th2():
     points2=np.random.multivariate_normal([0,0.0], [[1.5,0.0],[0.0,1.0]], 1000)
     points=np.concatenate([points1,points2], axis=0)
     return points
+
+# routine for coloring 2d space according to class prediction
+
+def plot_prediction_2d(x_min, x_max, y_min, y_max, classifier, ax=None):
+  """
+  Creates 2D mesh, predicts class for each point on the mesh, and visualises it
+  """
+
+  mesh_step = .02  # step size in the mesh
+  x_coords = np.arange(x_min, x_max, mesh_step) # coordinates of mesh colums
+  y_coords = np.arange(y_min, y_max, mesh_step) # coordinates of mesh rows
+
+  # create mesh, and get x and y coordinates of each point point
+  # arrenged as array of shape (n_mesh_rows, n_mesh_cols)
+  mesh_nodes_x, mesh_nodes_y = np.meshgrid(x_coords, y_coords)
+
+  # Plot the decision boundary. For that, we will assign a color to each
+  # point in the mesh [x_min, x_max]x[y_min, y_max].
+
+  # prepare xy pairs for prediction: matrix of size (n_mesh_rows*n_mesh_cols, 2)
+  mesh_xy_coords = np.stack([mesh_nodes_x.flatten(),
+                             mesh_nodes_y.flatten()], axis=-1)
+
+  # obtain class for each node
+  mesh_nodes_class = classifier.predict(mesh_xy_coords)
+
+
+  # reshape to the shape (n_mesh_rows, n_mesh_cols)==mesh_nodes_x.shape for visualization
+  mesh_nodes_class = mesh_nodes_class.reshape(mesh_nodes_x.shape)
+
+  # Put the result into a color countour plot
+  ax = ax or plt.gca()
+  ax.contourf(mesh_nodes_x,
+              mesh_nodes_y,
+              mesh_nodes_class,
+              cmap='Pastel1', alpha=0.5)

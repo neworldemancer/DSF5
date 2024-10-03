@@ -1,0 +1,33 @@
+*************** APPLICATIONS **************
+
+[1] Electrophysiological assessment of plant status outside a Faraday cage using supervised machine learning
+https://www.nature.com/articles/s41598-019-53675-4
+Methods: PCA (visualization), GradientBoostingTrees, LogisticRegression
+
+[2] Principal component analysis of dietary and lifestyle patterns in relation to risk of subtypes of esophageal and gastric cancer
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3109225/
+Methods: PCA (pattern finding)
+
+[3] https://github.com/huggingface/text-clustering ,
+An interesting repo following the pipeline text_embeddings -> UMAP & Clustering, using large language models as well (chatGPT) for data analysis. It showcases a text-analysis pipeline with UMAP. A useful exercise to level up the python skills is going through the code in the repo.
+Methods: Natural Language Processing (not done in course), large language models (not done in course), UMAP, Clustering
+
+[4] Raptor: Recursive Abstractive Processing for Tree-Organized Retrieval 
+https://arxiv.org/html/2401.18059v1
+Methods: Natural Language Processing (not done in course), UMAP, GaussianMixtures
+Note: this is a mixture of theory and application.
+
+
+*************** THEORY READINGS **************
+
+[1] Explaining individual predictions when features are dependent: More accurate approximations to Shapley values, 
+https://www.sciencedirect.com/science/article/pii/S0004370221000539
+SHAP tutorial: https://shap.readthedocs.io/en/latest/overviews.html
+Methods: theory of interpretable machine learning (cited breafly during the course). The article is interesting for the overview at the beginning about shapley values.
+
+[2] A Random Forest Guided Tour,
+https://arxiv.org/abs/1511.05741
+Methods: random forests.
+
+[3] Biplots in practice, https://www.fbbva.es/wp-content/uploads/2017/05/dat/DE_2010_biplots_in_practice.pdf
+Methods: PCA, and in particular how to interpret biplots.

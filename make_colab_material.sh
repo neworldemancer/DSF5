@@ -1,1 +1,1 @@
-tar -czvf colab_materials.tgz data utils
+tar -czvf colab_material.tgz data utils

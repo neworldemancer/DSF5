@@ -17,6 +17,11 @@ https://arxiv.org/html/2401.18059v1
 Methods: Natural Language Processing (not done in course), UMAP, GaussianMixtures
 Note: this is a mixture of theory and application.
 
+[5] Extract features from time series (e.g. a spectrum), to be used for downstream tasks (e.g. supervised machine learning):
+TSFRESH: https://tsfresh.readthedocs.io/en/latest/ 
+PYCATCH22: https://github.com/DynamicsAndNeuralSystems/pycatch22
+, and references therein.
+
 
 *************** THEORY READINGS **************
 

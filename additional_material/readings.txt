@@ -55,6 +55,9 @@ Response and Survival in Glioblastoma, E. Tasi et. Al
 [3] For same presentations, it would be useful to detect correlations in the presence of categorical variables, where the Pearson correlation makes little sense. Here a notebook written for the course that tries to use mutual information to tackle this goal:
 https://colab.research.google.com/drive/1YlQ5mRA8r0SleoMWUN0Vw508oLVObEuH?usp=sharing
 
-[4] About using categorical variables as input to a model, note the difference between ordinal and nominal (categorical) variables ( "https://stats.oarc.ucla.edu/other/mult-pkg/whatstat/what-is-the-difference-between-categorical-ordinal-and-interval-variables/" ). Ordinal variables can be often encoded as numbers, e.g. in a random forest model, (and this is the approach we had in the course), but not nominal variables. For nominal variables you can explore for example OneHotEncoding ( "https://www.geeksforgeeks.org/ml-one-hot-encoding/" ). Note that if you have nominal variables with a lot of categories, the number of your input features will explode, so check the number of categories that you have.
+[4] About using categorical variables as input to a model, note the difference between ordinal and nominal (categorical) variables ( "https://stats.oarc.ucla.edu/other/mult-pkg/whatstat/what-is-the-difference-between-categorical-ordinal-and-interval-variables/" ). 
+Ordinal variables can be often encoded as numbers, e.g. in a random forest model, (and this is the approach we had in the course), but not nominal variables. 
+For nominal variables you can explore for example OneHotEncoding ( "https://www.geeksforgeeks.org/ml-one-hot-encoding/" ). 
+Note that if you have nominal variables with a lot of categories, the number of your input features will explode, so check the number of categories that you have.
 
 

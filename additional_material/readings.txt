@@ -17,11 +17,6 @@ https://arxiv.org/html/2401.18059v1
 Methods: Natural Language Processing (not done in course), UMAP, GaussianMixtures
 Note: this is a mixture of theory and application.
 
-[5] Extract features from time series (e.g. a spectrum), to be used for downstream tasks (e.g. supervised machine learning):
-TSFRESH: https://tsfresh.readthedocs.io/en/latest/ 
-PYCATCH22: https://github.com/DynamicsAndNeuralSystems/pycatch22
-, and references therein.
-
 
 *************** THEORY READINGS **************
 
@@ -36,3 +31,30 @@ Methods: random forests.
 
 [3] Biplots in practice, https://www.fbbva.es/wp-content/uploads/2017/05/dat/DE_2010_biplots_in_practice.pdf
 Methods: PCA, and in particular how to interpret biplots.
+
+
+*************** SELECTED COMMENTS TO PRESENTATIONS **************
+
+[1] A couple of presentations worked with time series.
+In this context one possibility, instead of using the raw signal one can try to perform feature extraction before using the features in a model. A couple of packages:
+TSFRESH: https://tsfresh.readthedocs.io/en/latest/ 
+PYCATCH22: https://github.com/DynamicsAndNeuralSystems/pycatch22
+, and references therein.
+
+[2] In a clinical setting, we may find the following set-up:
+- Time-to-event prediction problem (e.g. death of patient)
+- Deal with censored data (e.g. the patient in the training
+set survived (lucky him) and does not have a precise time of
+event )
+In this case one presentation used:
+https://scikit-survival.readthedocs.io/en/stable/user_guide/random-survival-forest.html
+, with the related article: MetaWise: Combined Feature Selection and
+Weighting Method to Link the Serum Metabolome to Treatment
+Response and Survival in Glioblastoma, E. Tasi et. Al
+
+[3] For same presentations, it would be useful to detect correlations in the presence of categorical variables, where the Pearson correlation makes little sense. Here a notebook written for the course that tries to use mutual information to tackle this goal:
+https://colab.research.google.com/drive/1YlQ5mRA8r0SleoMWUN0Vw508oLVObEuH?usp=sharing
+
+[4] About using categorical variables as input to a model, note the difference between ordinal and nominal (categorical) variables ( "https://stats.oarc.ucla.edu/other/mult-pkg/whatstat/what-is-the-difference-between-categorical-ordinal-and-interval-variables/" ). Ordinal variables can be often encoded as numbers, e.g. in a random forest model, (and this is the approach we had in the course), but not nominal variables. For nominal variables you can explore for example OneHotEncoding ( "https://www.geeksforgeeks.org/ml-one-hot-encoding/" ). Note that if you have nominal variables with a lot of categories, the number of your input features will explode, so check the number of categories that you have.
+
+

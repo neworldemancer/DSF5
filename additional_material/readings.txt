@@ -52,7 +52,8 @@ https://scikit-survival.readthedocs.io/en/stable/user_guide/random-survival-fore
 Weighting Method to Link the Serum Metabolome to Treatment
 Response and Survival in Glioblastoma, E. Tasi et. Al
 
-[3] For same presentations, it would be useful to detect correlations in the presence of categorical variables, where the Pearson correlation makes little sense. Here a notebook written for the course that tries to use mutual information to tackle this goal:
+[3] For same presentations, it would be useful to detect correlations in the presence of categorical variables, where the Pearson correlation makes little sense. 
+Here a notebook written for the course that uses mutual information to tackle this goal:
 https://colab.research.google.com/drive/1YlQ5mRA8r0SleoMWUN0Vw508oLVObEuH?usp=sharing
 
 [4] About using categorical variables as input to a model, note the difference between ordinal and nominal (categorical) variables ( "https://stats.oarc.ucla.edu/other/mult-pkg/whatstat/what-is-the-difference-between-categorical-ordinal-and-interval-variables/" ). 

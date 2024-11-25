@@ -33,13 +33,15 @@ Methods: random forests.
 Methods: PCA, and in particular how to interpret biplots.
 
 
-*************** SELECTED COMMENTS TO PRESENTATIONS **************
+*************** SELECTED COMMENTS TO PRESENTATIONS AND OFF COURSE TOPICS **************
 
 [1] A couple of presentations worked with time series.
 In this context one possibility, instead of using the raw signal one can try to perform feature extraction before using the features in a model. A couple of packages:
 TSFRESH: https://tsfresh.readthedocs.io/en/latest/ 
 PYCATCH22: https://github.com/DynamicsAndNeuralSystems/pycatch22
 , and references therein.
+Here as well some comments about general possibilities in classical time series forecasting: 
+https://docs.google.com/document/d/11uns03JLHyvZ1-0LzR9hCXBkLUwyUCYXmFI94UNMLqs/edit?usp=sharing
 
 [2] For same presentations, it would be useful to detect correlations in the presence of categorical variables, where the Pearson correlation makes little sense. 
 Here a notebook written for the course that uses mutual information to tackle this goal:

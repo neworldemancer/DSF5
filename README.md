@@ -2,9 +2,6 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neworldemancer/DSF5)
 
-
-Introduction to Machine Learning and Data Analysis
-
 Learning outcomes:
 
 

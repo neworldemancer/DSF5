@@ -1,4 +1,10 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import os
+import tensorflow as tf
+import tarfile
+import shutil
+from packaging import version
 
 def load_sample_data_pca():
     
@@ -128,7 +134,6 @@ def gm_load_th2():
     return points
 
 # routine for coloring 2d space according to class prediction
-
 def plot_prediction_2d(x_min, x_max, y_min, y_max, classifier, ax=None):
   """
   Creates 2D mesh, predicts class for each point on the mesh, and visualises it
@@ -162,3 +167,200 @@ def plot_prediction_2d(x_min, x_max, y_min, y_max, classifier, ax=None):
               mesh_nodes_y,
               mesh_nodes_class,
               cmap='Pastel1', alpha=0.5)
+
+
+
+def plot_bias_example(num_points=5, x_range=(-3,3), frequency=3, seed=None):
+    """
+    Generate two random training sets, fit linear models to a high-frequency sinusoid, and plot results to illustrate bias.
+    
+    Parameters:
+        num_points (int): Number of points in each training set.
+        x_range (tuple): Domain for plotting.
+        frequency (float): Frequency multiplier for the sine function.
+        seed (int): Random seed for reproducibility.
+    """
+    if seed is not None:
+        np.random.seed(seed)
+    
+    # True function with more oscillations
+    def true_function(x):
+        return np.sin(frequency * x)
+    
+    # Domain for plotting
+    x = np.linspace(x_range[0], x_range[1], 400)
+    y_true = true_function(x)
+    
+    # Generate two random training sets
+    x_points1 = np.sort(np.random.uniform(x_range[0], x_range[1], num_points))
+    x_points2 = np.sort(np.random.uniform(x_range[0], x_range[1], num_points))
+    
+    y_points1 = true_function(x_points1)
+    y_points2 = true_function(x_points2)
+    
+    # Fit linear models (degree 1 polynomial)
+    coeffs1 = np.polyfit(x_points1, y_points1, deg=1)
+    coeffs2 = np.polyfit(x_points2, y_points2, deg=1)
+    
+    y_fit1 = np.polyval(coeffs1, x)
+    y_fit2 = np.polyval(coeffs2, x)
+    
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y_true, 'k--', label=f"True function (y = sin({frequency}x))")
+    
+    plt.scatter(x_points1, y_points1, color='blue', label="Training set 1")
+    plt.plot(x, y_fit1, color='blue', alpha=0.7, label="Linear fit Set 1")
+    
+    plt.scatter(x_points2, y_points2, color='red', label="Training set 2")
+    plt.plot(x, y_fit2, color='red', alpha=0.7, label="Linear fit Set 2")
+    
+    plt.title(f"High Bias Example")
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.legend()
+    plt.grid(True)
+    plt.ylim(-2, 2)
+    plt.show()
+
+
+def plot_variance_example(num_points=5, max_degree=8, min_degree=4, x_range=(-3, 3), seed=None):
+    """
+    Generate two random training sets, fit restricted polynomials, and plot results.
+    
+    Parameters:
+        num_points (int): Number of points in each training set.
+        max_degree (int): Maximum degree of the restricted polynomial.
+        min_degree (int): Minimum degree (default 4).
+        x_range (tuple): Domain for plotting (default (-3,3)).
+        seed (int): Random seed for reproducibility.
+    """
+    if seed is not None:
+        np.random.seed(seed)
+
+    # True function
+    def true_function(x):
+        return x**2
+
+    # Domain for plotting
+    x = np.linspace(x_range[0], x_range[1], 400)
+    y_true = true_function(x)
+
+    # Restricted polynomial fit
+    def restricted_polyfit(x_points, y_points, degree=max_degree, min_degree=min_degree):
+        X = np.vstack([x_points**d for d in range(min_degree, degree+1)]).T
+        coeffs, _, _, _ = np.linalg.lstsq(X, y_points, rcond=None)
+        
+        full_coeffs = np.zeros(degree + 1)
+        full_coeffs[degree - np.arange(min_degree, degree+1)] = coeffs
+        return full_coeffs
+
+    # Generate two random training sets
+    x_points1 = np.sort(np.random.uniform(-x_range[1], x_range[1], num_points))
+    x_points2 = np.sort(np.random.uniform(-x_range[1]+0.2, x_range[1]-0.2, num_points))
+
+    y_points1 = true_function(x_points1)
+    y_points2 = true_function(x_points2)
+
+    # Fit restricted polynomials
+    coeffs1 = restricted_polyfit(x_points1, y_points1, degree=max_degree, min_degree=min_degree)
+    coeffs2 = restricted_polyfit(x_points2, y_points2, degree=max_degree, min_degree=min_degree)
+
+    y_poly1 = np.polyval(coeffs1, x)
+    y_poly2 = np.polyval(coeffs2, x)
+
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y_true, 'k--', label="True function (y = x²)")
+
+    plt.scatter(x_points1, y_points1, color='blue', label="Training set 1")
+    plt.plot(x, y_poly1, color='blue', alpha=0.7, label=f"Restricted fit Set 1 (deg {max_degree})")
+
+    plt.scatter(x_points2, y_points2, color='red', label="Training set 2")
+    plt.plot(x, y_poly2, color='red', alpha=0.7, label=f"Restricted fit Set 2 (deg {max_degree})")
+
+    plt.title(f"High Variance Example")
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.legend()
+    plt.grid(True)
+    plt.ylim(-10, 10)
+    plt.show()
+
+
+def plot_dataset_split(sizes=[0.7, 0.15, 0.15], 
+                       labels=['Train', 'Validation', 'Test'], 
+                       colors=['skyblue', 'lightgreen', 'salmon'], 
+                       title="Dataset Split", 
+                       orientation='horizontal'):
+    """
+    Plot a dataset split as a rectangle divided into parts.
+
+    Parameters:
+    - sizes: list of float, proportions of each split (should sum to 1)
+    - labels: list of str, labels for each split
+    - colors: list of str, colors for each split
+    - title: str, plot title
+    - orientation: 'horizontal' or 'vertical'
+    """
+    
+    fig, ax = plt.subplots(figsize=(8, 2) if orientation=='horizontal' else (2, 6))
+    
+    start = 0
+    for size, label, color in zip(sizes, labels, colors):
+        if orientation == 'horizontal':
+            ax.barh(0, width=size, left=start, color=color, edgecolor='black')
+            ax.text(start + size/2, 0, label, ha='center', va='center', fontsize=12, fontweight='bold')
+        else:
+            ax.bar(0, height=size, bottom=start, color=color, edgecolor='black')
+            ax.text(0, start + size/2, label, ha='center', va='center', fontsize=12, fontweight='bold')
+        start += size
+    
+    ax.axis('off')
+    if orientation == 'horizontal':
+        ax.set_xlim(0, 1)
+        ax.set_ylim(-0.5, 0.5)
+    else:
+        ax.set_ylim(0, 1)
+        ax.set_xlim(-0.5, 0.5)
+    
+    plt.title(title)
+    plt.show()
+
+
+def download_and_extract_data(
+    url="https://github.com/neworldemancer/DSF5/raw/master/colab_material.tgz",
+    target_dir="data",
+    fname="colab_material.tgz",
+    update_folder=False
+):
+    """Download and extract a tar.gz dataset into target_dir."""
+    
+    if update_folder and os.path.exists(target_dir):
+        shutil.rmtree(target_dir)
+
+    if not os.path.exists(target_dir):
+        cache_dir = os.path.abspath(".")
+
+        if version.parse(tf.__version__) >= version.parse("2.13.0"):
+            # new behavior: fname must be only a filename
+            path = tf.keras.utils.get_file(
+                fname=fname,
+                origin=url,
+                cache_dir=cache_dir
+            )
+        else:
+            # old behavior: can pass full path
+            path = tf.keras.utils.get_file(
+                fname=os.path.join(cache_dir, fname),
+                origin=url
+            )
+
+        # extract tar into target_dir
+        with tarfile.open(path, "r:gz") as tar:
+            tar.extractall(target_dir)
+
+    else:
+        print('Data already present. Use update_folder = True to overwrite/update if desired.')
+    
+    return os.path.abspath(target_dir)

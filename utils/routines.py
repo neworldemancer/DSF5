@@ -1,10 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-import tensorflow as tf
-import tarfile
-import shutil
-from packaging import version
+
 
 def load_sample_data_pca():
     
@@ -326,41 +322,3 @@ def plot_dataset_split(sizes=[0.7, 0.15, 0.15],
     
     plt.title(title)
     plt.show()
-
-
-def download_and_extract_data(
-    url="https://github.com/neworldemancer/DSF5/raw/master/colab_material.tgz",
-    target_dir="data",
-    fname="colab_material.tgz",
-    update_folder=False
-):
-    """Download and extract a tar.gz dataset into target_dir."""
-    
-    if update_folder and os.path.exists(target_dir):
-        shutil.rmtree(target_dir)
-
-    if not os.path.exists(target_dir):
-        cache_dir = os.path.abspath(".")
-
-        if version.parse(tf.__version__) >= version.parse("2.13.0"):
-            # new behavior: fname must be only a filename
-            path = tf.keras.utils.get_file(
-                fname=fname,
-                origin=url,
-                cache_dir=cache_dir
-            )
-        else:
-            # old behavior: can pass full path
-            path = tf.keras.utils.get_file(
-                fname=os.path.join(cache_dir, fname),
-                origin=url
-            )
-
-        # extract tar into target_dir
-        with tarfile.open(path, "r:gz") as tar:
-            tar.extractall(target_dir)
-
-    else:
-        print('Data already present. Use update_folder = True to overwrite/update if desired.')
-    
-    return os.path.abspath(target_dir)
